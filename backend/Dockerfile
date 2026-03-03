@@ -11,8 +11,8 @@ COPY src ./src
 # 构建应用
 RUN mvn clean package -DskipTests
 
-# 使用 OpenJDK 官方镜像作为运行基础
-FROM openjdk:17-alpine
+# 使用 Eclipse Temurin 官方镜像作为运行基础
+FROM eclipse-temurin:17-alpine
 
 # 设置工作目录
 WORKDIR /app

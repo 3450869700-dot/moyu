@@ -37,59 +37,86 @@ async function fetchTables() {
     loading.value = true;
     error.value = null;
 
-    // 尝试查询 information_schema.tables 获取表信息
-    const { data, error: fetchError } = await supabase
-      .from("information_schema.tables")
-      .select("table_name, table_schema")
-      .eq("table_schema", "public");
+    // 直接查询用户的表 - Story Characters Table
+    const tableName = "story_characters_table";
+    const { data: tableData, error: tableError } = await supabase
+      .from(tableName)
+      .select("*")
+      .limit(1);
 
-    if (fetchError) {
-      console.error("查询表信息失败:", fetchError);
+    if (!tableError && tableData && tableData.length > 0) {
+      tables.value = [
+        {
+          name: tableName,
+          description: "Story Characters Table",
+          columns: Object.keys(tableData[0]).map((key) => ({
+            name: key,
+            dataType: typeof tableData[0][key],
+          })),
+        },
+      ];
+    } else {
+      // 如果直接查询失败，尝试查询 information_schema.tables 获取表信息
+      const { data, error: fetchError } = await supabase
+        .from("information_schema.tables")
+        .select("table_name, table_schema")
+        .eq("table_schema", "public");
 
-      // 尝试查询常见表
-      const tablesToCheck = ["users", "posts", "profiles"];
-      const foundTables = [];
+      if (fetchError) {
+        console.error("查询表信息失败:", fetchError);
 
-      for (const tableName of tablesToCheck) {
-        const { data: tableData, error: tableError } = await supabase
-          .from(tableName)
-          .select("*")
-          .limit(1);
+        // 尝试查询常见表和用户可能有的表
+        const tablesToCheck = [
+          "users",
+          "posts",
+          "profiles",
+          "story_characters_table",
+          "story_characters",
+          "characters",
+        ];
+        const foundTables = [];
 
-        if (!tableError && tableData && tableData.length > 0) {
-          foundTables.push({
-            name: tableName,
-            description: `${tableName}表`,
-            columns: Object.keys(tableData[0]).map((key) => ({
-              name: key,
-              dataType: typeof tableData[0][key],
+        for (const checkTable of tablesToCheck) {
+          const { data: checkData, error: checkTableError } = await supabase
+            .from(checkTable)
+            .select("*")
+            .limit(1);
+
+          if (!checkTableError && checkData && checkData.length > 0) {
+            foundTables.push({
+              name: checkTable,
+              description: `${checkTable}表`,
+              columns: Object.keys(checkData[0]).map((key) => ({
+                name: key,
+                dataType: typeof checkData[0][key],
+              })),
+            });
+          }
+        }
+
+        tables.value = foundTables;
+      } else {
+        // 处理查询结果
+        const tableDetails = [];
+        for (const table of data) {
+          // 尝试获取表的列信息
+          const { data: columnsData } = await supabase
+            .from("information_schema.columns")
+            .select("column_name, data_type")
+            .eq("table_name", table.table_name)
+            .eq("table_schema", table.table_schema);
+
+          tableDetails.push({
+            name: table.table_name,
+            description: `${table.table_name}表`,
+            columns: (columnsData || []).map((col) => ({
+              name: col.column_name,
+              dataType: col.data_type,
             })),
           });
         }
+        tables.value = tableDetails;
       }
-
-      tables.value = foundTables;
-    } else {
-      // 处理查询结果
-      const tableDetails = [];
-      for (const table of data) {
-        // 尝试获取表的列信息
-        const { data: columnsData } = await supabase
-          .from("information_schema.columns")
-          .select("column_name, data_type")
-          .eq("table_name", table.table_name)
-          .eq("table_schema", table.table_schema);
-
-        tableDetails.push({
-          name: table.table_name,
-          description: `${table.table_name}表`,
-          columns: (columnsData || []).map((col) => ({
-            name: col.column_name,
-            dataType: col.data_type,
-          })),
-        });
-      }
-      tables.value = tableDetails;
     }
   } catch (err) {
     error.value = err.message;

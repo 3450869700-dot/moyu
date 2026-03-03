@@ -12,7 +12,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # 使用 OpenJDK 官方镜像作为运行基础
-FROM openjdk:17-jdk-alpine
+FROM openjdk:17-alpine
 
 # 设置工作目录
 WORKDIR /app

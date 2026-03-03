@@ -40,7 +40,7 @@ async function fetchTables() {
     console.log("开始查询数据库表信息...");
 
     // 直接查询用户的表 - Story Characters Table
-    const tableName = "story_characters_table";
+    const tableName = "story_characters";
     console.log(`尝试查询表: ${tableName}`);
 
     const { data: tableData, error: tableError } = await supabase

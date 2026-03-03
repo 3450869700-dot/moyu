@@ -37,12 +37,26 @@ async function fetchTables() {
     loading.value = true;
     error.value = null;
 
+    console.log("开始查询数据库表信息...");
+
     // 直接查询用户的表 - Story Characters Table
     const tableName = "story_characters_table";
+    console.log(`尝试查询表: ${tableName}`);
+
     const { data: tableData, error: tableError } = await supabase
       .from(tableName)
       .select("*")
       .limit(1);
+
+    console.log("查询结果:", { tableData, tableError });
+
+    if (tableError) {
+      console.error("表查询错误:", tableError);
+      if (tableError.message.includes("Invalid API key")) {
+        error.value = "API 密钥无效，请检查 Supabase 配置";
+        return;
+      }
+    }
 
     if (!tableError && tableData && tableData.length > 0) {
       tables.value = [
@@ -56,70 +70,11 @@ async function fetchTables() {
         },
       ];
     } else {
-      // 如果直接查询失败，尝试查询 information_schema.tables 获取表信息
-      const { data, error: fetchError } = await supabase
-        .from("information_schema.tables")
-        .select("table_name, table_schema")
-        .eq("table_schema", "public");
-
-      if (fetchError) {
-        console.error("查询表信息失败:", fetchError);
-
-        // 尝试查询常见表和用户可能有的表
-        const tablesToCheck = [
-          "users",
-          "posts",
-          "profiles",
-          "story_characters_table",
-          "story_characters",
-          "characters",
-        ];
-        const foundTables = [];
-
-        for (const checkTable of tablesToCheck) {
-          const { data: checkData, error: checkTableError } = await supabase
-            .from(checkTable)
-            .select("*")
-            .limit(1);
-
-          if (!checkTableError && checkData && checkData.length > 0) {
-            foundTables.push({
-              name: checkTable,
-              description: `${checkTable}表`,
-              columns: Object.keys(checkData[0]).map((key) => ({
-                name: key,
-                dataType: typeof checkData[0][key],
-              })),
-            });
-          }
-        }
-
-        tables.value = foundTables;
-      } else {
-        // 处理查询结果
-        const tableDetails = [];
-        for (const table of data) {
-          // 尝试获取表的列信息
-          const { data: columnsData } = await supabase
-            .from("information_schema.columns")
-            .select("column_name, data_type")
-            .eq("table_name", table.table_name)
-            .eq("table_schema", table.table_schema);
-
-          tableDetails.push({
-            name: table.table_name,
-            description: `${table.table_name}表`,
-            columns: (columnsData || []).map((col) => ({
-              name: col.column_name,
-              dataType: col.data_type,
-            })),
-          });
-        }
-        tables.value = tableDetails;
-      }
+      // 显示详细的错误信息
+      error.value = `无法查询表: ${tableName}，请检查 Supabase 配置和表权限`;
     }
   } catch (err) {
-    error.value = err.message;
+    error.value = `发生错误: ${err.message}`;
     console.error("发生错误:", err);
   } finally {
     loading.value = false;

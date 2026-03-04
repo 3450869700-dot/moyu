@@ -20,8 +20,8 @@ WORKDIR /app
 # 从构建阶段复制打包好的 jar 文件
 COPY --from=build /app/target/backend-0.0.1-SNAPSHOT.jar ./app.jar
 
-# 暴露 8080 端口
-EXPOSE 8080
+# 暴露 10000 端口
+EXPOSE 10000
 
 # 启动应用
 CMD ["java", "-jar", "app.jar"]

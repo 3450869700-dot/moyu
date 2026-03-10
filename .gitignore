@@ -1,0 +1,38 @@
+# 前端忽略文件
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+frontend/.env.*.local
+
+# 后端忽略文件
+backend/target/
+backend/.idea/
+backend/*.iml
+
+# 通用忽略文件
+.DS_Store
+*.swp
+*.swo
+*~
+
+# IDE 相关
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 系统相关
+Thumbs.db
+.DS_Store
+
+# 日志文件
+logs
+*.log
+
+# 缓存文件
+*.tmp
+*.temp

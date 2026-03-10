@@ -1,0 +1,1240 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>首页</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- SVG路径定义，用于clip-path -->
+      <svg width="0" height="0" style="position: absolute">
+        <defs>
+          <!-- 第一个按钮的形状路径 -->
+          <clipPath id="button1-shape" clipPathUnits="objectBoundingBox">
+            <path
+              d="M0.118,0.128 L0.134,0.077 L0.169,0.025 L0.232,0 L0.329,0.056 L0.905,0.38 L0.954,0.415 L0.983,0.468 L0.995,0.515 L1,0.582 L0.976,0.868 L0.967,0.913 L0.933,0.976 L0.894,1 L0.100,1 L0.069,1 L0.036,0.976 L0.006,0.924 L0,0.838 L0.006,0.75 L0.118,0.128 Z"
+            />
+          </clipPath>
+          <!-- 第二个按钮的形状路径 -->
+          <clipPath id="button2-shape" clipPathUnits="objectBoundingBox">
+            <path
+              d="M0.769,0.982 L0.063,0.597 L0.013,0.556 L0,0.485 L0,0.414 L0.181,0.161 L0.291,0.021 L0.354,0 L0.414,0.021 L0.981,0.641 L1,0.709 L1,0.780 L0.916,0.932 L0.877,0.982 L0.824,1 L0.769,0.982 Z"
+            />
+          </clipPath>
+          <!-- 第三个按钮的形状路径 -->
+          <clipPath id="button3-shape" clipPathUnits="objectBoundingBox">
+            <path
+              d="M0.061,0.153 L0.475,0 L0.518,0.009 L0.564,0.051 L0.926,0.638 L0.986,0.760 L1,0.811 L0.986,0.857 L0.967,0.892 L0.808,0.976 L0.753,1 L0.700,0.983 L0.648,0.903 L0.045,0.378 L0.016,0.347 L0,0.295 L0.016,0.209 L0.061,0.153 Z"
+            />
+          </clipPath>
+          <!-- 第四个按钮的形状路径 -->
+          <clipPath id="button4-shape" clipPathUnits="objectBoundingBox">
+            <path
+              d="M0.790,0 L0.159,0.009 L0.079,0.026 L0.021,0.084 L0,0.152 L0.430,0.930 L0.497,0.980 L0.586,1 L0.881,0.977 L0.960,0.925 L1,0.876 L0.948,0.114 L0.935,0.071 L0.917,0.033 L0.790,0 Z"
+            />
+          </clipPath>
+          <!-- 第五个按钮的形状路径 -->
+          <clipPath id="button5-shape" clipPathUnits="objectBoundingBox">
+            <path
+              d="M0.289,0 L0.919,0.163 L0.971,0.206 L1,0.248 L0.991,0.296 L0.525,0.951 L0.486,0.983 L0.400,1 L0.233,0.973 L0.068,0.943 L0.016,0.905 L0,0.868 L0.068,0.142 L0.091,0.083 L0.161,0.019 L0.289,0 Z"
+            />
+          </clipPath>
+          <!-- 第六个按钮的形状路径 -->
+          <clipPath id="button6-shape" clipPathUnits="objectBoundingBox">
+            <path
+              d="M0.790,0 L0.159,0.009 L0.079,0.026 L0.021,0.084 L0,0.152 L0.430,0.930 L0.497,0.980 L0.586,1 L0.881,0.977 L0.960,0.925 L1,0.876 L0.948,0.114 L0.935,0.071 L0.917,0.033 L0.790,0 Z"
+            />
+          </clipPath>
+          <!-- 第七个按钮的形状路径 -->
+          <clipPath id="button7-shape" clipPathUnits="objectBoundingBox">
+            <path
+              d="M0.289,0 L0.919,0.163 L0.971,0.206 L1,0.248 L0.991,0.296 L0.525,0.951 L0.486,0.983 L0.400,1 L0.233,0.973 L0.068,0.943 L0.016,0.905 L0,0.868 L0.068,0.142 L0.091,0.083 L0.161,0.019 L0.289,0 Z"
+            />
+          </clipPath>
+          <!-- 第八个按钮的形状路径 -->
+          <clipPath id="button8-shape" clipPathUnits="objectBoundingBox">
+            <path
+              d="M0.289,0 L0.919,0.163 L0.971,0.206 L1,0.248 L0.991,0.296 L0.525,0.951 L0.486,0.983 L0.400,1 L0.233,0.973 L0.068,0.943 L0.016,0.905 L0,0.868 L0.068,0.142 L0.091,0.083 L0.161,0.019 L0.289,0 Z"
+            />
+          </clipPath>
+        </defs>
+      </svg>
+      <style>
+        /* 基础样式重置 */
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        /* 容器使用视口单位，确保随窗口大小变化 */
+        .button-container {
+          position: relative;
+          width: 100vw;
+          height: 100vh;
+          background-image: url("assets/images/back1.png");
+          background-size: cover;
+          background-position: center;
+          overflow: hidden; /* 防止动画过程中出现滚动条 */
+        }
+
+        /* 图片按钮基础样式 - 核心动画配置 */
+        .image-button {
+          position: absolute;
+          display: inline-block;
+          background: transparent;
+          border: none;
+          padding: 0;
+          opacity: 0; /* 初始透明 */
+          /* 动画核心配置：干净急促收尾 */
+          animation-iteration-count: 1;
+          animation-fill-mode: forwards;
+
+          animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+
+          animation-duration: 0.15s;
+          pointer-events: none;
+          /* 可选：添加轻微缩放强化收尾（展开后瞬间定住） */
+          transform-origin: center center; /* 扇形展开的原点，根据实际需求调整 */
+          /* 添加阴影效果 - 使用drop-shadow使阴影贴合图片形状 */
+          filter: drop-shadow(0 4px 6px rgba(70, 7, 7, 0.9));
+          /* 设置z-index确保阴影在按钮下方，且不影响其他按钮 */
+          z-index: 1;
+        }
+
+        /* 确保图片容器为相对定位，以便SVG覆盖层可以绝对定位 */
+        .image-button a {
+          position: relative;
+          display: inline-block;
+          pointer-events: none !important;
+        }
+
+        /* 确保没有链接的按钮容器也不可交互 */
+        .image-button div {
+          position: relative;
+          display: inline-block;
+          pointer-events: none !important;
+        }
+
+        /* 确保动画结束后，容器仍然不可交互 */
+        .image-button.animation-ended a,
+        .image-button.animation-ended div {
+          pointer-events: none !important;
+        }
+
+        /* 图片本身设置为指针事件为none，确保点击事件只由SVG覆盖层处理 */
+        .image-button img {
+          pointer-events: none;
+          user-select: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+        }
+
+        /* 动画结束后，确保容器仍然不可交互 */
+        .image-button.animation-ended a,
+        .image-button.animation-ended div {
+          pointer-events: none;
+        }
+
+        /* 交互覆盖层样式 */
+        .interaction-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          /* 确保SVG覆盖层完全覆盖PNG图片 */
+          object-fit: cover;
+          /* 确保SVG覆盖层在PNG图片上方 */
+          z-index: 2;
+          /* 确保SVG覆盖层的背景透明，只保留路径作为交互区域 */
+          background: transparent;
+          /* 确保SVG本身也被裁剪 */
+          overflow: visible;
+          /* 允许SVG元素接收鼠标事件，但让路径决定具体的交互区域 */
+          pointer-events: auto;
+        }
+
+        /* 确保SVG路径作为交互区域 */
+        .interaction-overlay path {
+          /* 保持路径填充为透明，但确保能够捕获鼠标事件 */
+          fill: transparent;
+          /* 确保路径能够捕获鼠标事件 */
+          pointer-events: auto;
+          /* 添加一个非常小的透明度，确保路径能够接收事件 */
+          opacity: 0.01;
+          /* 确保路径的形状就是交互区域 */
+          cursor: pointer;
+        }
+
+        /* 悬停时路径保持透明 */
+        .interaction-overlay:hover path {
+          fill: transparent;
+          opacity: 0.01;
+        }
+
+        /* 确保SVG覆盖层的容器也不可交互，只有SVG路径可交互 */
+        .interaction-overlay svg {
+          pointer-events: none;
+        }
+
+        /* 确保动画结束后，SVG覆盖层仍然可交互 */
+        .image-button.animation-ended .interaction-overlay {
+          pointer-events: auto;
+        }
+
+        /* 确保图片容器的宽度和高度由图片决定 */
+        .image-button a,
+        .image-button div {
+          display: inline-block;
+          position: relative;
+          line-height: 0;
+        }
+
+        /* 确保图片占据容器的100%空间 */
+        .image-button img {
+          display: block;
+          width: 100%;
+          height: auto;
+        }
+
+        /* 确保只有SVG覆盖层可以触发悬停效果 */
+        .image-button.animation-ended {
+          pointer-events: none;
+        }
+
+        .image-button.animation-ended .interaction-overlay {
+          pointer-events: auto;
+          cursor: pointer;
+        }
+
+        /* 确保图片不被SVG覆盖层遮挡 */
+        .image-button.animation-ended img {
+          position: relative;
+          transition: transform 0.4s ease-out !important;
+          z-index: 1;
+        }
+
+        .image-button.animation-ended .interaction-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 2;
+        }
+
+        /* 悬停效果类 - 直接应用到图片上，确保优先级最高 */
+        .image-button.animation-ended img.hover-scale {
+          transform: scale(1.1) !important;
+          transition: transform 0.1s ease !important;
+          z-index: 1 !important;
+        }
+
+        /* 为第6、7、8个按钮的hover效果单独处理，确保旋转和缩放同时生效 */
+        .image-button:nth-child(6).animation-ended img.hover-scale {
+          transform: scale(1.1) rotate(48deg) !important;
+          transition: transform 0.1s ease !important;
+        }
+
+        .image-button:nth-child(7).animation-ended img.hover-scale {
+          transform: scale(1.1) rotate(47deg) !important;
+          transition: transform 0.1s ease !important;
+        }
+
+        .image-button:nth-child(8).animation-ended img.hover-scale {
+          transform: scale(1.1) rotate(70deg) !important;
+          transition: transform 0.1s ease !important;
+        }
+
+        /* 动画播放时，禁止鼠标事件和过渡效果 */
+        .image-button:not(.animation-ended) {
+          transition: none !important;
+          pointer-events: none; /* 初始禁止 */
+          cursor: default;
+        }
+
+        /* 动画结束后，确保按钮本身不可交互，只有SVG覆盖层可交互 */
+        .image-button.animation-ended {
+          pointer-events: none;
+          cursor: default;
+        }
+
+        /* 确保动画结束后，SVG覆盖层仍然可交互 */
+        .image-button.animation-ended .interaction-overlay {
+          pointer-events: auto;
+          cursor: pointer;
+        }
+        /* 链接样式 */
+        .image-button a {
+          display: inline-block;
+          background: transparent;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+        }
+
+        /* 确保动画结束后链接也能交互 */
+        .image-button.animation-ended a {
+          pointer-events: auto;
+          cursor: pointer;
+        }
+
+        /* 图片使用视口单位，确保随窗口大小变化 */
+        .image-button img {
+          display: block;
+          background: transparent;
+          border: none;
+          padding: 0;
+        }
+
+        /* 装饰品图片样式 */
+        .decoration-image {
+          position: absolute;
+          opacity: 1;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .decoration-image img {
+          height: auto;
+        }
+
+        /* 为1-21号装饰品图片设置位置和大小 */
+        .decoration-1 {
+          top: 25vh;
+          left: 3vw;
+        }
+        .decoration-1 img {
+          max-width: 10vw;
+        }
+
+        .decoration-2 {
+          top: 5vh;
+          right: 5vw;
+        }
+        .decoration-2 img {
+          max-width: 10vw;
+          transform: rotate(47deg);
+        }
+
+        .decoration-3 {
+          bottom: -2vh;
+          left: 5vw;
+        }
+        .decoration-3 img {
+          max-width: 10vw;
+          transform: rotate(-20deg);
+        }
+
+        .decoration-4 {
+          top: 20vh;
+          right: 5vw;
+        }
+        .decoration-4 img {
+          max-width: 10vw;
+          transform: rotate(30deg);
+        }
+
+        .decoration-5 {
+          bottom: 25vh;
+          left: 3vw;
+        }
+        .decoration-5 img {
+          max-width: 10vw;
+        }
+
+        .decoration-6 {
+          top: 5vh;
+          right: 5vw;
+        }
+        .decoration-6 img {
+          max-width: 10vw;
+        }
+
+        .decoration-7 {
+          bottom: 25vh;
+          left: 45vw;
+        }
+        .decoration-7 img {
+          max-width: 10vw;
+        }
+
+        .decoration-8 {
+          bottom: 10vh;
+          right: 15vw;
+        }
+        .decoration-8 img {
+          max-width: 10vw;
+        }
+
+        .decoration-9 {
+          bottom: 8vh;
+          right: 25vw;
+        }
+        .decoration-9 img {
+          max-width: 10vw;
+        }
+
+        .decoration-10 {
+          top: 5vh;
+          left: 5vw;
+        }
+        .decoration-10 img {
+          max-width: 10vw;
+        }
+
+        .decoration-11 {
+          bottom: 25vh;
+          left: 75vw;
+        }
+        .decoration-11 img {
+          max-width: 10vw;
+        }
+
+        .decoration-12 {
+          top: 5vh;
+          left: 5vw;
+        }
+        .decoration-12 img {
+          max-width: 10vw;
+        }
+
+        .decoration-13 {
+          top: 5vh;
+          left: 5vw;
+        }
+        .decoration-13 img {
+          max-width: 10vw;
+        }
+
+        .decoration-14 {
+          top: 5vh;
+          left: 5vw;
+        }
+        .decoration-14 img {
+          max-width: 10vw;
+        }
+
+        .decoration-15 {
+          top: 5vh;
+          left: 5vw;
+        }
+        .decoration-15 img {
+          max-width: 10vw;
+        }
+
+        .decoration-16 {
+          top: 5vh;
+          left: 5vw;
+        }
+        .decoration-16 img {
+          max-width: 10vw;
+        }
+
+        .decoration-17 {
+          top: 5vh;
+          left: 10vw;
+        }
+        .decoration-17 img {
+          max-width: 10vw;
+        }
+
+        .decoration-18 {
+          top: 5vh;
+          left: 5vw;
+        }
+        .decoration-18 img {
+          max-width: 10vw;
+        }
+
+        .decoration-19 {
+          top: 5vh;
+          left: 5vw;
+        }
+        .decoration-19 img {
+          max-width: 10vw;
+        }
+
+        .decoration-20 {
+          top: 5vh;
+          left: 5vw;
+        }
+        .decoration-20 img {
+          max-width: 10vw;
+          transform: rotate(47deg);
+        }
+
+        .decoration-21 {
+          bottom: 5vh;
+          right: 5vw;
+        }
+        .decoration-21 img {
+          max-width: 10vw;
+        }
+
+        /* ========== 1. 赛博茶水间 - 独立动画+独立旋转原点 ========== */
+        .image-button:nth-child(1) {
+          top: 56.8vh;
+          left: 7.2vw;
+          transform-origin: 60vw 25vh; /* 专属旋转原点：左10vw，下95vh */
+          animation-name: button1;
+          animation-delay: 0.16s; /* 延迟0.1s播放 */
+          z-index: 8; /* 最前面的按钮 */
+        }
+        @keyframes button1 {
+          0% {
+            opacity: 0;
+            transform: scale(0.8) rotate(180deg); /* 初始状态：缩小+旋转+透明 */
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg); /* 最终状态：正常大小+无旋转+不透明 */
+          }
+        }
+        .image-button:nth-child(1) img {
+          max-width: 38vw;
+          height: auto;
+        }
+
+        /* ========== 2. 博戏游艺 - 独立动画+独立旋转原点 ========== */
+        .image-button:nth-child(2) {
+          top: 27vh;
+          left: 17vw;
+          transform-origin: 55vw 60vh; /* 专属旋转原点：左15vw，下90vh */
+          animation-name: button2;
+          animation-delay: 0.12s;
+          z-index: 7;
+        }
+        @keyframes button2 {
+          0% {
+            opacity: 0;
+            transform: scale(0.8) rotate(150deg);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+          }
+        }
+        .image-button:nth-child(2) img {
+          max-width: 33vw;
+          height: auto;
+        }
+
+        /* ========== 3. 行商货单 - 独立动画+独立旋转原点 ========== */
+        .image-button:nth-child(3) {
+          top: 12.5vh;
+          left: 32.8vw;
+          transform-origin: 42vw 70vh; /* 专属旋转原点：左20vw，下85vh */
+          animation-name: button3;
+          animation-delay: 0.1s;
+          z-index: 6;
+        }
+        @keyframes button3 {
+          0% {
+            opacity: 0;
+            transform: scale(0.8) rotate(150deg);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+          }
+        }
+        .image-button:nth-child(3) img {
+          max-width: 25vw;
+        }
+
+        /* ========== 4. 待建造 (左) - 独立动画+独立旋转原点 ========== */
+        .image-button:nth-child(4) {
+          top: 9vh;
+          left: 50.6vw;
+          transform-origin: 28vw 68vh; /* 专属旋转原点：左25vw，下80vh */
+          animation-name: button4;
+          animation-delay: 0.08s;
+          z-index: 5;
+        }
+        @keyframes button4 {
+          0% {
+            opacity: 0;
+            transform: scale(0.8) rotate(165deg);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+          }
+        }
+        .image-button:nth-child(4) img {
+          max-width: 16.7vw;
+        }
+
+        /* ========== 5. 待建造 (右) - 独立动画+独立旋转原点 ========== */
+        .image-button:nth-child(5) {
+          top: 13vh;
+          left: 67vw;
+          transform-origin: 12vw 68vh; /* 专属旋转原点：左30vw，下75vh */
+          animation-name: button5;
+          animation-delay: 0.08s;
+          z-index: 4;
+        }
+        @keyframes button5 {
+          0% {
+            opacity: 0;
+            transform: scale(0.8) rotate(150deg);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+          }
+        }
+        .image-button:nth-child(5) img {
+          max-width: 14.5vw;
+        }
+
+        /* ========== 6. 黄色按钮 - 独立动画+独立旋转原点（含48度旋转） ========== */
+        .image-button:nth-child(6) {
+          top: 24.8vh;
+          left: 74.8vw;
+          transform-origin: 8% 60vh; /* 专属旋转原点：左35vw，下70vh */
+          animation-name: button6;
+          animation-delay: 0.05s;
+          z-index: 3;
+        }
+        @keyframes button6 {
+          0% {
+            opacity: 0;
+            transform: scale(0.8) rotate(120deg);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1); /* 最终状态：48度旋转 */
+          }
+        }
+        .image-button:nth-child(6) img {
+          max-width: 13.4vw;
+          transform: rotate(48deg);
+        }
+
+        /* ========== 7. 绿色按钮 - 独立动画+独立旋转原点（含47度旋转） ========== */
+        .image-button:nth-child(7) {
+          top: 42vh;
+          left: 83vw;
+          transform-origin: -6vw 40vh; /* 专属旋转原点：左40vw，下65vh */
+          animation-name: button7;
+          animation-delay: 0.02s;
+          z-index: 2;
+        }
+        @keyframes button7 {
+          0% {
+            opacity: 0;
+            transform: scale(0.8) rotate(150deg);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1); /* 最终状态：47度旋转 */
+          }
+        }
+        .image-button:nth-child(7) img {
+          max-width: 11.6vw;
+          transform: rotate(47deg);
+        }
+
+        /* ========== 8. 橙色按钮 - 独立动画+独立旋转原点（含70度旋转） ========== */
+        .image-button:nth-child(8) {
+          top: 59vh;
+          left: 85vw;
+          transform-origin: -10vw 20vh; /* 专属旋转原点：左45vw，下60vh */
+          animation-name: button8;
+          animation-delay: 0.02s;
+          z-index: 1; /* 最后面的按钮 */
+        }
+        @keyframes button8 {
+          0% {
+            opacity: 0;
+            transform: scale(0.8) rotate(150deg);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1); /* 最终状态：70度旋转 */
+          }
+        }
+        .image-button:nth-child(8) img {
+          max-width: 10vw;
+          transform: rotate(70deg);
+        }
+      </style>
+      <div class="button-container">
+        <div class="image-button">
+          <a href="cyber-tea-room.html">
+            <img src="assets/images/trimmed_button1.png" alt="赛博茶水间" />
+            <!-- 透明SVG覆盖层，用于交互响应区域 -->
+            <svg
+              class="interaction-overlay"
+              viewBox="0 0 867 479"
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: auto;
+                clip-path: url(#button1-shape);
+              "
+            >
+              <path
+                d="M102.5 61.5L116.5 37L146.5 12L201.5 0L285 27L785 182L827.5 199L852.5 224L862.5 246.5L867 278.5L846 416L838.5 437.5L809 467.5L775.5 479H87H60.5L31 467.5L5.5 442.5L0 401.5L5.5 359.5L102.5 61.5Z"
+                fill="transparent"
+                style="cursor: pointer"
+              />
+            </svg>
+          </a>
+        </div>
+        <div class="image-button">
+          <a href="game-room.html">
+            <img src="assets/images/trimmed_button2.png" alt="博戏游艺" />
+            <!-- 透明SVG覆盖层，用于交互响应区域 -->
+            <svg
+              class="interaction-overlay"
+              viewBox="0 0 758 621"
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: auto;
+                clip-path: url(#button2-shape);
+              "
+            >
+              <path
+                d="M583.5 610L47.5 370.5L10 345L0 301V257L137 100L220.5 13L268 0L314.5 13L743.5 399L758 441V485L695 579L665 610L625.5 621L583.5 610Z"
+                fill="transparent"
+                style="cursor: pointer"
+              />
+            </svg>
+          </a>
+        </div>
+        <div class="image-button">
+          <a href="shopping-list.html">
+            <img src="assets/images/trimmed_button3.png" alt="行商货单" />
+            <!-- 透明SVG覆盖层，用于交互响应区域 -->
+            <svg
+              class="interaction-overlay"
+              viewBox="0 0 578 609"
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: auto;
+                clip-path: url(#button3-shape);
+              "
+            >
+              <path
+                d="M35.5 93.5L275 0H299.5L326.5 5.5L357 31L535 388.5L569 463L578 494L569 522L556 543.5L466.5 593.5L435 608.5H402.5L371.5 593.5L326.5 547L26 230.5L9.5 211L0 180L9.5 127L35.5 93.5Z"
+                fill="transparent"
+                style="cursor: pointer"
+              />
+            </svg>
+          </a>
+        </div>
+        <div class="image-button">
+          <div style="position: relative; display: inline-block">
+            <img src="assets/images/trimmed_button4.png" alt="待建设" />
+            <!-- 透明SVG覆盖层，用于交互响应区域 -->
+            <svg
+              class="interaction-overlay"
+              viewBox="0 0 379 564"
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: auto;
+                clip-path: url(#button4-shape);
+              "
+            >
+              <path
+                d="M299.5 0L60.5 5.5L30 15L8 47.5L0 85.5L163 524.5L188 552.5L222 563.5L334 552.5L364 531.5L378.5 496.5L357.5 64.5L352.5 40L337.5 15L299.5 0Z"
+                fill="transparent"
+                style="cursor: pointer"
+              />
+            </svg>
+          </div>
+        </div>
+        <div class="image-button">
+          <div style="position: relative; display: inline-block">
+            <img src="assets/images/trimmed_button5.png" alt="待建设" />
+            <!-- 透明SVG覆盖层，用于交互响应区域 -->
+            <svg
+              class="interaction-overlay"
+              viewBox="0 0 347 543"
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: auto;
+                clip-path: url(#button5-shape);
+              "
+            >
+              <path
+                d="M100.5 0L319.5 86.5L337 109.5L346.5 135.5L342.5 157.5L183 516.5L168 535.5L138 542.5L81 530L23.5 511L5.5 485.5L0 452.5L23.5 77L31.5 45L56 10.5L100.5 0Z"
+                fill="transparent"
+                style="cursor: pointer"
+              />
+            </svg>
+          </div>
+        </div>
+        <div class="image-button">
+          <div style="position: relative; display: inline-block">
+            <img src="assets/images/trimmed_button6.png" alt="待建造" />
+            <!-- 透明SVG覆盖层，用于交互响应区域 -->
+            <svg
+              class="interaction-overlay"
+              viewBox="0 0 379 564"
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: auto;
+                transform: rotate(48deg);
+                clip-path: url(#button6-shape);
+              "
+            >
+              <path
+                d="M299.5 0L60.5 5.5L30 15L8 47.5L0 85.5L163 524.5L188 552.5L222 563.5L334 552.5L364 531.5L378.5 496.5L357.5 64.5L352.5 40L337.5 15L299.5 0Z"
+                fill="transparent"
+                style="cursor: pointer"
+              />
+            </svg>
+          </div>
+        </div>
+        <div class="image-button">
+          <div style="position: relative; display: inline-block">
+            <img src="assets/images/trimmed_button7.png" alt="待建造" />
+            <!-- 透明SVG覆盖层，用于交互响应区域 -->
+            <svg
+              class="interaction-overlay"
+              viewBox="0 0 347 543"
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: auto;
+                transform: rotate(47deg);
+                clip-path: url(#button7-shape);
+              "
+            >
+              <path
+                d="M100.5 0L319.5 86.5L337 109.5L346.5 135.5L342.5 157.5L183 516.5L168 535.5L138 542.5L81 530L23.5 511L5.5 485.5L0 452.5L23.5 77L31.5 45L56 10.5L100.5 0Z"
+                fill="transparent"
+                style="cursor: pointer"
+              />
+            </svg>
+          </div>
+        </div>
+        <div class="image-button">
+          <div style="position: relative; display: inline-block">
+            <img src="assets/images/trimmed_button8.png" alt="待建造" />
+            <!-- 透明SVG覆盖层，用于交互响应区域 -->
+            <svg
+              class="interaction-overlay"
+              viewBox="0 0 347 543"
+              style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: auto;
+                transform: rotate(70deg);
+                clip-path: url(#button8-shape);
+              "
+            >
+              <path
+                d="M100.5 0L319.5 86.5L337 109.5L346.5 135.5L342.5 157.5L183 516.5L168 535.5L138 542.5L81 530L23.5 511L5.5 485.5L0 452.5L23.5 77L31.5 45L56 10.5L100.5 0Z"
+                fill="transparent"
+                style="cursor: pointer"
+              />
+            </svg>
+          </div>
+        </div>
+        <!-- 1-21号png装饰品图片 -->
+        <div class="decoration-image decoration-1">
+          <img src="assets/images/1.png" alt="1" />
+        </div>
+        <div class="decoration-image decoration-2">
+          <img src="assets/images/2.png" alt="2" />
+        </div>
+        <div class="decoration-image decoration-3">
+          <img src="assets/images/3.png" alt="3" />
+        </div>
+        <div class="decoration-image decoration-4">
+          <img src="assets/images/4.png" alt="4" />
+        </div>
+        <div class="decoration-image decoration-5">
+          <img src="assets/images/5.png" alt="5" />
+        </div>
+        <div class="decoration-image decoration-6">
+          <img src="assets/images/6.png" alt="6" />
+        </div>
+        <div class="decoration-image decoration-7">
+          <img src="assets/images/7.png" alt="7" />
+        </div>
+        <div class="decoration-image decoration-8">
+          <img src="assets/images/8.png" alt="8" />
+        </div>
+        <div class="decoration-image decoration-9">
+          <img src="assets/images/9.png" alt="9" />
+        </div>
+        <div class="decoration-image decoration-10">
+          <img src="assets/images/10.png" alt="10" />
+        </div>
+        <div class="decoration-image decoration-11">
+          <img src="assets/images/11.png" alt="11" />
+        </div>
+        <div class="decoration-image decoration-12">
+          <img src="assets/images/12.png" alt="12" />
+        </div>
+        <div class="decoration-image decoration-13">
+          <img src="assets/images/13.png" alt="13" />
+        </div>
+        <div class="decoration-image decoration-14">
+          <img src="assets/images/14.png" alt="14" />
+        </div>
+        <div class="decoration-image decoration-15">
+          <img src="assets/images/15.png" alt="15" />
+        </div>
+        <div class="decoration-image decoration-16">
+          <img src="assets/images/16.png" alt="16" />
+        </div>
+        <div class="decoration-image decoration-17">
+          <img src="assets/images/17.png" alt="17" />
+        </div>
+        <div class="decoration-image decoration-18">
+          <img src="assets/images/18.png" alt="18" />
+        </div>
+        <div class="decoration-image decoration-19">
+          <img src="assets/images/19.png" alt="19" />
+        </div>
+        <div class="decoration-image decoration-20">
+          <img src="assets/images/20.png" alt="20" />
+        </div>
+        <div class="decoration-image decoration-21">
+          <img src="assets/images/21.png" alt="21" />
+        </div>
+      </div>
+    </div>
+    <!-- 编辑模式UI -->
+    <div id="editor-toolbar" style="display:none; position:fixed; top:0; left:0; right:0; z-index:10000; background:rgba(0,0,0,0.85); color:#fff; padding:8px 16px; font-family:monospace; font-size:13px; backdrop-filter:blur(4px);">
+      <span style="color:#0f0; font-weight:bold;">✏️ 编辑模式</span>
+      <span style="margin-left:16px; color:#aaa;">拖拽移动 | 滚轮缩放 | Shift+滚轮旋转 | 双击选中/取消</span>
+      <span id="editor-info" style="margin-left:24px; color:#ff0;"></span>
+      <button id="editor-export" style="float:right; margin-left:8px; padding:4px 12px; background:#0a0; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:13px;">📋 导出CSS</button>
+      <button id="editor-exit" style="float:right; padding:4px 12px; background:#a00; color:#fff; border:none; border-radius:4px; cursor:pointer; font-size:13px;">退出编辑</button>
+    </div>
+
+    <script>
+      // ========== 可视化拖拽编辑器 ==========
+      (function() {
+        let editorMode = false;
+        let selectedEl = null;
+        let isDragging = false;
+        let dragStartX, dragStartY, elStartLeft, elStartTop;
+
+        function getEditableElements() {
+          return [...document.querySelectorAll('.image-button, .decoration-image')];
+        }
+
+        function parsePosition(el) {
+          const style = window.getComputedStyle(el);
+          return {
+            left: el.offsetLeft,
+            top: el.offsetTop,
+            width: el.offsetWidth,
+            height: el.offsetHeight
+          };
+        }
+
+        function pxToVw(px) { return (px / window.innerWidth * 100); }
+        function pxToVh(px) { return (px / window.innerHeight * 100); }
+
+        function updateInfo(el) {
+          if (!el) { document.getElementById('editor-info').textContent = ''; return; }
+          const classes = el.className.replace('image-button','').replace('decoration-image','').replace('animation-ended','').trim();
+          const img = el.querySelector('img');
+          const imgStyle = img ? window.getComputedStyle(img) : null;
+          const maxW = imgStyle ? imgStyle.maxWidth : '';
+          const rot = imgStyle && imgStyle.transform !== 'none' ? imgStyle.transform : '';
+          const label = classes || (img ? img.alt : '?');
+          document.getElementById('editor-info').textContent =
+            `[${label}] left:${pxToVw(el.offsetLeft).toFixed(1)}vw top:${pxToVh(el.offsetTop).toFixed(1)}vh | img-max-width:${maxW} ${rot ? '| rotate' : ''}`;
+        }
+
+        function highlight(el) {
+          if (!el) return;
+          el.style.outline = '2px dashed #0ff';
+          el.style.outlineOffset = '2px';
+        }
+        function unhighlight(el) {
+          if (!el) return;
+          el.style.outline = '';
+          el.style.outlineOffset = '';
+        }
+
+        function enterEditor() {
+          editorMode = true;
+          document.getElementById('editor-toolbar').style.display = 'block';
+          // 暂停动画，让所有元素可见
+          getEditableElements().forEach(el => {
+            el.style.opacity = '1';
+            el.style.animationPlayState = 'paused';
+            el.style.animation = 'none';
+            el.style.pointerEvents = 'auto';
+            el.style.cursor = 'move';
+            el.classList.add('animation-ended');
+          });
+        }
+
+        function exitEditor() {
+          editorMode = false;
+          document.getElementById('editor-toolbar').style.display = 'none';
+          if (selectedEl) { unhighlight(selectedEl); selectedEl = null; }
+          getEditableElements().forEach(el => {
+            el.style.cursor = '';
+            el.style.outline = '';
+            el.style.outlineOffset = '';
+          });
+        }
+
+        function exportCSS() {
+          const lines = [];
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+
+          // 导出按钮位置
+          document.querySelectorAll('.image-button').forEach((el, i) => {
+            const img = el.querySelector('img');
+            const imgStyle = img ? window.getComputedStyle(img) : null;
+            const maxW = imgStyle ? imgStyle.maxWidth : '';
+            const maxWvw = maxW.includes('px') ? (parseFloat(maxW) / vw * 100).toFixed(1) + 'vw' : maxW;
+            lines.push(`/* 按钮${i+1}: ${img ? img.alt : ''} */`);
+            lines.push(`.image-button:nth-child(${i+1}) {`);
+            lines.push(`  top: ${pxToVh(el.offsetTop).toFixed(1)}vh;`);
+            lines.push(`  left: ${pxToVw(el.offsetLeft).toFixed(1)}vw;`);
+            lines.push(`}`);
+            lines.push(`.image-button:nth-child(${i+1}) img {`);
+            lines.push(`  max-width: ${maxWvw};`);
+            lines.push(`}`);
+            lines.push('');
+          });
+
+          // 导出装饰品位置
+          document.querySelectorAll('.decoration-image').forEach((el, i) => {
+            const img = el.querySelector('img');
+            const imgStyle = img ? window.getComputedStyle(img) : null;
+            const maxW = imgStyle ? imgStyle.maxWidth : '';
+            const maxWvw = maxW.includes('px') ? (parseFloat(maxW) / vw * 100).toFixed(1) + 'vw' : maxW;
+            const transform = imgStyle && imgStyle.transform !== 'none' ? imgStyle.transform : '';
+            lines.push(`.decoration-${i+1} {`);
+            lines.push(`  top: ${pxToVh(el.offsetTop).toFixed(1)}vh;`);
+            lines.push(`  left: ${pxToVw(el.offsetLeft).toFixed(1)}vw;`);
+            lines.push(`}`);
+            lines.push(`.decoration-${i+1} img {`);
+            lines.push(`  max-width: ${maxWvw};`);
+            if (transform) lines.push(`  /* has transform */`);
+            lines.push(`}`);
+            lines.push('');
+          });
+
+          const css = lines.join('\n');
+          navigator.clipboard.writeText(css).then(() => {
+            alert('CSS已复制到剪贴板！\n\n请将导出的CSS替换到index.html的<style>中对应位置。');
+          }).catch(() => {
+            // fallback
+            const ta = document.createElement('textarea');
+            ta.value = css;
+            ta.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:80vw;height:60vh;z-index:99999;font-size:12px;';
+            document.body.appendChild(ta);
+            ta.select();
+            alert('请手动复制下面的CSS内容：');
+          });
+          console.log(css);
+        }
+
+        // 键盘快捷键: 按 E 键进入/退出编辑模式
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'e' && !e.ctrlKey && !e.metaKey && !e.altKey && e.target === document.body) {
+            if (editorMode) exitEditor(); else enterEditor();
+          }
+        });
+
+        // 鼠标按下 - 开始拖拽
+        document.addEventListener('mousedown', (e) => {
+          if (!editorMode) return;
+          const el = e.target.closest('.image-button, .decoration-image');
+          if (!el) return;
+          e.preventDefault();
+
+          if (selectedEl && selectedEl !== el) unhighlight(selectedEl);
+          selectedEl = el;
+          highlight(el);
+          updateInfo(el);
+
+          isDragging = true;
+          dragStartX = e.clientX;
+          dragStartY = e.clientY;
+          elStartLeft = el.offsetLeft;
+          elStartTop = el.offsetTop;
+        });
+
+        // 鼠标移动 - 拖拽中
+        document.addEventListener('mousemove', (e) => {
+          if (!isDragging || !selectedEl) return;
+          e.preventDefault();
+          const dx = e.clientX - dragStartX;
+          const dy = e.clientY - dragStartY;
+          selectedEl.style.left = (elStartLeft + dx) + 'px';
+          selectedEl.style.top = (elStartTop + dy) + 'px';
+          // 清��� bottom/right 定位，统一用 top/left
+          selectedEl.style.bottom = 'auto';
+          selectedEl.style.right = 'auto';
+          updateInfo(selectedEl);
+        });
+
+        // 鼠标松开 - 结束拖拽
+        document.addEventListener('mouseup', () => {
+          isDragging = false;
+        });
+
+        // 滚轮 - 缩放/旋转
+        document.addEventListener('wheel', (e) => {
+          if (!editorMode || !selectedEl) return;
+          e.preventDefault();
+          const img = selectedEl.querySelector('img');
+          if (!img) return;
+
+          if (e.shiftKey) {
+            // Shift+滚轮 = 旋转
+            const currentTransform = window.getComputedStyle(img).transform;
+            let angle = 0;
+            if (currentTransform && currentTransform !== 'none') {
+              const m = currentTransform.match(/matrix\(([^)]+)\)/);
+              if (m) {
+                const vals = m[1].split(',').map(Number);
+                angle = Math.round(Math.atan2(vals[1], vals[0]) * 180 / Math.PI);
+              }
+            }
+            angle += (e.deltaY > 0 ? 3 : -3);
+            img.style.transform = `rotate(${angle}deg)`;
+          } else {
+            // 普通滚轮 = 缩放
+            const currentMax = parseFloat(window.getComputedStyle(img).maxWidth);
+            const delta = e.deltaY > 0 ? -10 : 10;
+            const newMax = Math.max(20, currentMax + delta);
+            img.style.maxWidth = newMax + 'px';
+          }
+          updateInfo(selectedEl);
+        }, { passive: false });
+
+        // 工具栏按钮
+        document.addEventListener('DOMContentLoaded', () => {
+          document.getElementById('editor-export').addEventListener('click', exportCSS);
+          document.getElementById('editor-exit').addEventListener('click', exitEditor);
+        });
+      })();
+
+      // ========== 原有按钮动画逻辑 ==========
+      // 获取所有按钮
+      const buttons = document.querySelectorAll(".image-button");
+      console.log("Found buttons:", buttons.length);
+
+      buttons.forEach((button, index) => {
+        console.log("Button", index, ":", button);
+
+        // 监听动画结束事件
+        button.addEventListener("animationend", (e) => {
+          console.log(
+            "Animation ended for button",
+            index,
+            ":",
+            e.animationName,
+          );
+          // 动画结束后，添加类名，启用hover
+          button.classList.add("animation-ended");
+          console.log("Added animation-ended class to button", index);
+          console.log("Button classes:", button.className);
+        });
+
+        // 监听动画开始事件
+        button.addEventListener("animationstart", (e) => {
+          console.log(
+            "Animation started for button",
+            index,
+            ":",
+            e.animationName,
+          );
+        });
+
+        // 强制添加animation-ended类，确保按钮可以交互
+        setTimeout(() => {
+          button.classList.add("animation-ended");
+          console.log("Forced added animation-ended class to button", index);
+          console.log("Button classes:", button.className);
+        }, 500);
+      });
+
+      // 为每个SVG覆盖层添加悬停事件监听器
+      setTimeout(() => {
+        buttons.forEach((button, index) => {
+          const overlay = button.querySelector(".interaction-overlay");
+          const img = button.querySelector("img");
+          const container = overlay ? overlay.parentElement : null;
+
+          if (overlay && img && container) {
+            // 确保容器有相对定位
+            container.style.position = "relative";
+            container.style.display = "inline-block";
+
+            // 确保图片和SVG覆盖层的定位
+            img.style.position = "relative";
+            img.style.zIndex = "1";
+            overlay.style.position = "absolute";
+            overlay.style.top = "0";
+            overlay.style.left = "0";
+            overlay.style.width = "100%";
+            overlay.style.height = "100%";
+            overlay.style.zIndex = "2";
+
+            // 监听鼠标进入事件
+            overlay.addEventListener("mouseenter", () => {
+              console.log(`按钮 ${index + 1} SVG覆盖层被悬停`);
+
+              // 添加hover-scale类
+              img.classList.add("hover-scale");
+            });
+
+            // 监听鼠标离开事件
+            overlay.addEventListener("mouseleave", () => {
+              console.log(`鼠标离开按钮 ${index + 1} SVG覆盖层`);
+
+              // 移除hover-scale类
+              img.classList.remove("hover-scale");
+            });
+
+            console.log(`已为按钮 ${index + 1} 添加悬停事件监听器`);
+          }
+        });
+      }, 1000); // 等待动画结束后添加事件监听器
+    </script>
+  </body>
+</html>
